@@ -86,3 +86,20 @@ var finances = [
   ['Jan-2017', 138230],
   ['Feb-2017', 671099],
 ];
+
+// Initial variables
+var totalMonths;
+var netTotal;
+var greatestIncrease = {date: '', amount: 0};
+var greatestDecrease = {date: '', amount: 0};
+var previousProfitLoss;
+var totalChange;
+
+for (var f of finances) {
+  // The total number of months included in the dataset
+  totalMonths++; 
+  // The net total amount of Profit/Losses over the entire period
+  var date = f[0];
+  var revenue = f[1];
+  netTotal += revenue;
+}
