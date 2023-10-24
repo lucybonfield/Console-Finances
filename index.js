@@ -88,46 +88,45 @@ var finances = [
 ];
 
 // Initial variables
-var totalMonths = null;
-var totalRevenue = null;
+var totalMonths = 0;
+var totalChange = 0;
 var greatestIncrease = {date: '', amount: 0};
 var greatestDecrease = {date: '', amount: 0};
 var previousRevenue = null;
-var total = null;
+var total = 0;
 
 // Loop through finances data set
 for (var f of finances) {
   totalMonths++; // The total number of months included in the dataset
-
   // The net total amount of Profit/Losses over the entire period
   var date = f[0];
   var revenue = f[1];
   total += revenue;
 
-  // The average of the **changes** in Profit/Losses over the entire period
-  var change = revenue - previousRevenue;
-  totalRevenue += change;
+  // Calculate the change in revenue month to month
+  if (previousRevenue !== null) {
+    var change = revenue - previousRevenue;
+    totalChange += change;
   
-  // The greatest increase in Profit/Losses (date and amount) over the entire period.
-  if (change > greatestIncrease.amount) {
-    greatestIncrease.date = date;
-    greatestIncrease.amount = change; 
-  }
-
-  // The greatest decrease in Profit/Losses (date and amount) over the entire period.
-  if (change < greatestDecrease.amount) {
-    greatestDecrease.date = date;
-    greatestDecrease.amount = change; 
+    // The greatest increase in Profit/Losses (date and amount) over the entire period.
+    if (change > greatestIncrease.amount) {
+      greatestIncrease.date = date;
+      greatestIncrease.amount = change; 
+    } else if (change < greatestDecrease.amount) {
+      greatestDecrease.date = date;
+      greatestDecrease.amount = change; 
+    }
   }
   previousRevenue = revenue;
 }
-var averagechange = totalRevenue / (totalMonths -1);
+
+var averagechange = totalChange / (totalMonths - 1);
 
 // console print out
 console.log("Financial Analysis");
 console.log("----------------");
 console.log("Total Months: " + totalMonths);
-console.log("Total: $" + totalRevenue);
+console.log("Total: $" + total);
 console.log("Average Change: " + averagechange.toFixed(2));
 console.log("Greatest Increase in Profits/Losses: " + greatestIncrease.date + " ($" + greatestIncrease.amount + ")");
 console.log("Greatest Decrease in Profits/Losses: " + greatestDecrease.date + " ($" + greatestDecrease.amount + ")");
